@@ -2,10 +2,10 @@ const path = require('path');
 const express = require("express");
 const session = require("express-session");
 const mongoose = require("mongoose");
-const routes = require("./routes");
+const routes = require("./routes/index_route");
 const app = express();
 const PORT = process.env.PORT || 3001;
-const passport = require('passport');
+const passport = require("./config/passport");
 const LocalStrategy = require('passport-local').Strategy;
 
 // create sessions
@@ -13,11 +13,10 @@ app.use(session({ secret: "keyboard cat", resave: true, saveUninitialized: true 
 app.use(passport.initialize());
 app.use(passport.session());
 
-// passport config
-let Account = require('./models/account');
-passport.use(new LocalStrategy(Account.authenticate()));
-passport.serializeUser(Account.serializeUser());
-passport.deserializeUser(Account.deserializeUser());
+// We need to use sessions to keep track of our user's login status
+app.use(session({ secret: "keyboard cat", resave: true, saveUninitialized: true }));
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Define middleware here
 app.use(express.urlencoded({ extended: true }));
@@ -29,8 +28,9 @@ if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, 'client/public')));
 }
 
-// Add routes, both API and Static pages
-app.use(routes);
+// Add routes
+require('./routes/login_routes')(app);
+require('./routes/index_route')(app);
 
 // Connect to the Mongo DB
 mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/warp_point");
