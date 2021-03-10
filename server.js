@@ -6,7 +6,6 @@ const routes = require("./routes/index_route");
 const app = express();
 const PORT = process.env.PORT || 3001;
 const passport = require("./config/passport");
-const LocalStrategy = require('passport-local').Strategy;
 
 // create sessions
 app.use(session({ secret: "keyboard cat", resave: true, saveUninitialized: true }));

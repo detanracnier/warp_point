@@ -6,12 +6,15 @@ import axios from "axios";
 
 async function registerUser(credentials) {
   return axios.post('/api/register', { ...credentials })
-    .then(data => data)
+    .then(data => data).catch((err) => {
+      return "Error";
+    })
 }
 
 export default function RegisterPage() {
   const { setUser } = useContext(UserContext);
   const [newUser, setNewUser] = useState();
+  const [loginError, setLoginError] = useState(false);
   const [redirect, setRedirect] = useState({ enabled: false, route: "" });
 
   const handleSubmit = async e => {
@@ -19,16 +22,29 @@ export default function RegisterPage() {
     const user = await registerUser({
       ...newUser
     });
-    // Add display error incase registration fails
-    console.log("Setting user:");
-    console.log(user.data);
-    setUser(user.data);
-    //setRedirect({enabled:true, route:"/"+user.data.type+"/dashboard"});
+    console.log(user);
+    if (user.data.error) {
+      setLoginError(true);
+      setTimeout(() => {
+        setLoginError(false);
+      }, 3000);
+    } else {
+      console.log("Setting user:");
+      console.log(user.data);
+      await setUser(user.data);
+      setRedirect({ enabled: true, route: "/" + user.data.type + "/dashboard" });
+    }
   };
 
   const renderRedirect = () => {
     if (redirect.enabled) {
       return <Redirect to={redirect.route} />
+    }
+  }
+
+  const renderError = () => {
+    if (loginError) {
+      return <div className="warning">Failed to create user</div>
     }
   }
 
@@ -47,7 +63,11 @@ export default function RegisterPage() {
         </label>
         <label>
           <p>Type</p>
-          <input type="text" onChange={e => setNewUser({ ...newUser, type: e.target.value })} />
+          <select className="p-1" type="text" onChange={e => setNewUser({ ...newUser, type: e.target.value })} >
+            <option value="customer">Customer</option>
+            <option value="carrier">Carrier</option>
+            <option value="rep">Representative</option>
+          </select>
         </label>
         <label>
           <p>Company Name</p>
@@ -66,6 +86,7 @@ export default function RegisterPage() {
         </div>
       </form>
       <div onClick={() => setRedirect({ enabled: true, route: "/login" })} className="btn btn-primary">Login</div>
+      {renderError()}
     </div>
   )
 }

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Redirect, Route, Switch } from "react-router-dom";
 import UserContext from "./utils/UserContext";
 import LoginPage from "./pages/LoginPage";
@@ -6,65 +6,58 @@ import RegisterPage from "./pages/RegisterPage";
 import CustomerDashboard from "./pages/CustomerDashboard";
 import CarrierDashboard from "./pages/CarrierDashboard";
 import RepresentativeDashboard from "./pages/RepresentativeDashboard";
+import ProtectedRoute from "./components/ProtectedRoute";
+import CheckIfLoggedIn from "./components/CheckIfLoggedIn";
+
+// json web tokens
+// jwt-decode
 
 function App() {
   const [user, setUser] = useState();
+  console.log("app starting");
 
-  if (!user) {
-    console.log("App.js: User not logged in>>");
-    return (
-      <div className="app-container">
-        <UserContext.Provider value={{ setUser }}>
-          <Router>
-            <Switch>
-              <Route exact path="/login">
-                <LoginPage />
-              </Route>
-              <Route exact path="/register" >
-                <RegisterPage />
-              </Route>
-              <Redirect to="/login" />
-            </Switch>
-          </Router>
-        </UserContext.Provider>
-      </div>
-    )
-  }
-
-  function renderDashboard() {
-    if (user.type === "customer") {
-      //window.history.push("/customer/dashboard");
-      console.log("App.js:");
-      console.log(user);
-      return (
-        <CustomerDashboard />
-      )
-    } else if (user.type === "carrier") {
-      // window.history.push("/carrier/dashboard");
-      return (
-        <CarrierDashboard />
-      )
-    } else if (user.type === "representative") {
-      // window.history.push("/rep/dashboard");
-      return (
-        <RepresentativeDashboard />
-      )
-    } else {
-      console.log("App.js:");
-      console.log(user);
-      return (
-        <h1>user type not found...in App.js</h1>
-      )
+  useEffect(()=>{
+    console.log("checking for localstorage user");
+    const localUser = JSON.parse(localStorage.getItem("user"));
+    if(localUser){
+      setUser(localUser);
     }
-  }
+  },[]);
 
   return (
     <div className="app-container">
-      <UserContext.Provider value={{ user }}>
-        {renderDashboard()}
+      <UserContext.Provider value={{ user, setUser }}>
+        <Router>
+          <Switch>
+            <Route exact path="/login">
+              <CheckIfLoggedIn>
+                <LoginPage />
+              </CheckIfLoggedIn>
+            </Route>
+            <Route exact path="/register" >
+              <RegisterPage />
+            </Route>
+            <Route path="/customer/dashboard">
+              <ProtectedRoute>
+                <CustomerDashboard />
+              </ProtectedRoute>
+            </Route>
+            <Route path="/carrier/dashboard">
+              <ProtectedRoute>
+                <CarrierDashboard />
+              </ProtectedRoute>
+            </Route>
+            <Route path="/rep/dashboard">
+              <ProtectedRoute>
+                <RepresentativeDashboard />
+              </ProtectedRoute>
+            </Route>
+            <Redirect to="/login" />
+          </Switch>
+        </Router>
       </UserContext.Provider>
     </div>
-  );
+  )
 }
 
 export default App;
