@@ -14,10 +14,8 @@ import CheckIfLoggedIn from "./components/CheckIfLoggedIn";
 
 function App() {
   const [user, setUser] = useState();
-  console.log("app starting");
 
   useEffect(()=>{
-    console.log("checking for localstorage user");
     const localUser = JSON.parse(localStorage.getItem("user"));
     if(localUser){
       setUser(localUser);

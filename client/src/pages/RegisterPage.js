@@ -13,7 +13,7 @@ async function registerUser(credentials) {
 
 export default function RegisterPage() {
   const { setUser } = useContext(UserContext);
-  const [newUser, setNewUser] = useState();
+  const [newUser, setNewUser] = useState({ type: "customer" });
   const [loginError, setLoginError] = useState(false);
   const [redirect, setRedirect] = useState({ enabled: false, route: "" });
 
@@ -47,6 +47,7 @@ export default function RegisterPage() {
       return <div className="warning">Failed to create user</div>
     }
   }
+
 
   return (
     <div className="container">

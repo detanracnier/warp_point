@@ -7,7 +7,7 @@ const OrderSchema = new Schema({
     distance: { type: Number, required: true },
     customer: { type: String, required: true },
     customerCharge: { type: Number, required: true },
-    carrier: { type: String, required: true },
+    carrier: { type: String },
     carrierBid: { type: Number },
     expectedDelivaryDate: { type: Date },
     status: { type: String },

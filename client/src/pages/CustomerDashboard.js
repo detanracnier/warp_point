@@ -1,16 +1,39 @@
-import React, { useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import UserContext from "../utils/UserContext";
+import axios from "axios";
+import NewOrderForm from "../components/NewOrderForm";
+import Starchart from "../components/Starchart";
 import LogoutLink from "../components/LogoutLink";
 
 export default function CustomerDashboard() {
   const { user } = useContext(UserContext);
-  console.log("customer dashboard>>");
-  console.log(user);
+  const [starchart, setStarchart] = useState([]);
+
+  useEffect(() => {
+    axios.get('/api/starchart').then(data => {
+      setStarchart(data.data);
+    }).catch((err) => {
+      console.log(err);
+    });
+  }, []);
 
   return (
     <div className="container">
-        <h1>Customer Dashboard for {user.username}</h1>
-        <LogoutLink />
+      <div className="row bg-info text-white">
+        <div className="col-9">
+          <h1 className="">Customer Dashboard for {user.username}</h1>
+        </div>
+        <div className="col-3">
+          <LogoutLink />
+        </div>
+      </div>
+      <NewOrderForm chart={starchart} />
+      <div className="row">
+        <div className="col">
+          <Starchart chart={starchart} />
+        </div>
+      </div>
+
     </div>
   )
 }

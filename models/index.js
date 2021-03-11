@@ -1,3 +1,5 @@
 module.exports = {
-    Account: require("./account")
+    Account: require("./account"),
+    Order: require("./order"),
+    PlanetNode: require("./planetNode")
   };

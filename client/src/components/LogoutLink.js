@@ -10,6 +10,6 @@ export default function LogoutLink(){
     }
 
     return(
-        <div onClick={()=> logOut()} className="btn btn-outline-dark">Logout</div>
+        <div onClick={()=> logOut()} className="inline btn btn-outline-dark">Logout</div>
     )
 }
