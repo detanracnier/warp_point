@@ -34,10 +34,24 @@ export default function Starchart(props) {
         )
     }
 
+    function renderPlanetNames() {
+        let style = {
+            fontSize:"0.6em",
+            fill:"#b1cdfa"
+        }
+        return (
+            starchart.map((planet) => {
+                return <text style={style} key={planet.name} x={planet.xCord} y={planet.yCord-5}>{planet.name}</text>;
+            })
+        )
+    }
+
     return (
-        <svg viewBox="100 0 700 500" id="svg_canvas" className="svg border bg-dark" width="700" height="500" >
+        // viewbox x-offset, y-offset, width, height
+        <svg viewBox="350 0 400 250" id="svg_canvas" className="svg border bg-dark" width="700" height="400" >
             {renderRoutes()}
             {renderPlanets()}
+            {renderPlanetNames()}
         </svg>
     )
 }
