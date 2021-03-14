@@ -6,6 +6,7 @@ import Starchart from "../components/Starchart";
 import NewOrderForm from "../components/NewOrderForm";
 import CustomerShippingOrders from "../components/CustomerShippingOrders";
 
+
 export default function CustomerDashboard() {
   const { user } = useContext(UserContext);
   const [starchart, setStarchart] = useState([]);
@@ -22,7 +23,6 @@ export default function CustomerDashboard() {
   useEffect(() => {
     axios.post('/api/order/search', { customer: user.companyName })
       .then(response => {
-        console.log(response);
         setDisplayOrders(response.data);
       })
   }, [user])
