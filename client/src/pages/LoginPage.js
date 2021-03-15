@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 import { Redirect } from "react-router-dom";
 import UserContext from "../utils/UserContext";
 import axios from "axios";
+import jwt from "jwt-simple";
 
 async function loginUser(credentials) {
   return axios.post('/api/login', { ...credentials })
@@ -11,6 +12,7 @@ async function loginUser(credentials) {
 }
 
 export default function LoginPage() {
+  const secret = "blackhole";
   const { setUser } = useContext(UserContext);
   const [username, setUserName] = useState();
   const [password, setPassword] = useState();
@@ -29,8 +31,9 @@ export default function LoginPage() {
         setLoginError(false);
       }, 3000);
     } else {
-      localStorage.setItem("user",JSON.stringify(user.data));
-      await setUser(user.data);
+      localStorage.setItem("userToken",JSON.stringify(user.data));
+      const decodedUser = jwt.decode(user.data,secret);
+      await setUser(decodedUser);
     }
   };
 

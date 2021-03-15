@@ -1,12 +1,13 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
+import { v4 as uuidv4 } from "uuid";
 
 export default function Starchart(props) {
+    const shippingRoute = props.route;
     const starchart = props.chart;
-    const domTarget = useRef();
-    const [mapScale, setMapScale] = useState(100);
+    const [mapScale, setMapScale] = useState(150);
     const [viewBox, setViewBox] = useState({
         xOffset: 200,
-        yOffset: 100,
+        yOffset: 70,
         width: 400,
         height: 250
     });
@@ -26,11 +27,11 @@ export default function Starchart(props) {
                 return planet.connections.filter(x => !complete[x]).map((connection) => {
                     let planetB = starchart.find(p => p.name === connection.name);
                     let style = {
-                        stroke: "#008a09",
-                        strokeWidth: 2
+                        stroke: "#cfe3cf",
+                        strokeWidth: 1.5
                     }
                     return (
-                        <line key={planet.xCord + planet.yCord + planetB.xCord + planetB.yCord} style={style}
+                        <line key={uuidv4()} style={style}
                             x1={planet.xCord}
                             y1={planet.yCord}
                             x2={planetB.xCord}
@@ -45,7 +46,7 @@ export default function Starchart(props) {
     function renderPlanetNames() {
         let style = {
             fontSize: "0.6em",
-            fill: "#b1cdfa",
+            fill: "#a1c5ff",
             WebkitTouchCallout: "none",
             WebkitUserSelect: "none",
             khtmlUserSelect: "none",
@@ -58,6 +59,50 @@ export default function Starchart(props) {
                 return <text style={style} key={planet.name} x={planet.xCord} y={planet.yCord - 5}>{planet.name}</text>;
             })
         )
+    }
+
+    function renderPlanetNames2() {
+        let style = {
+            fontSize: "0.6em",
+            fill: "#000000",
+            WebkitTouchCallout: "none",
+            WebkitUserSelect: "none",
+            khtmlUserSelect: "none",
+            MozUserSelect: "none",
+            msUserSelect: "none",
+            UserSelect: "none"
+        }
+        return (
+            starchart.map((planet) => {
+                return <text style={style} key={planet.name} x={planet.xCord+0.8} y={planet.yCord - 5.8}>{planet.name}</text>;
+            })
+        )
+    }
+
+    function renderRoute(){
+        if(shippingRoute){
+            return (
+                shippingRoute.map((planet, index)=> {
+                    if(shippingRoute.length > index + 1){
+                        let style = {
+                            stroke: "#008a09",
+                            strokeWidth: 4
+                        }
+                        return (
+                            <line
+                                key={uuidv4()}
+                                style={style}
+                                x1={planet.xCord}
+                                y1={planet.yCord}
+                                x2={shippingRoute[index+1].xCord}
+                                y2={shippingRoute[index+1].yCord}
+                            />
+                        );
+                    }
+                    return <div key={uuidv4()} ></div>;
+                })
+            )
+        }
     }
 
     function handleMouseDown(e) {
@@ -114,7 +159,6 @@ export default function Starchart(props) {
     return (
         <div>
             <svg
-                ref={domTarget}
                 onMouseDown={(e) => handleMouseDown(e)}
                 onDragStart={() => { return false }}
                 viewBox={viewBoxString()}
@@ -126,6 +170,8 @@ export default function Starchart(props) {
             >
                 {renderRoutes()}
                 {renderPlanets()}
+                {renderRoute()}
+                {renderPlanetNames2()}
                 {renderPlanetNames()}
             </svg>
             <div className="btn btn-info" style={{ position: "relative", top: "-50px", left: "10px" }} onClick={() => handleScale(-100)}>+</div>

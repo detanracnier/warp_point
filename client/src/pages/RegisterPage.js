@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import { Redirect } from "react-router-dom";
 import UserContext from "../utils/UserContext";
 import axios from "axios";
-
+import jwt from "jwt-simple";
 
 async function registerUser(credentials) {
   return axios.post('/api/register', { ...credentials })
@@ -12,6 +12,7 @@ async function registerUser(credentials) {
 }
 
 export default function RegisterPage() {
+  const secret = "blackhole";
   const { setUser } = useContext(UserContext);
   const [newUser, setNewUser] = useState({ type: "customer" });
   const [loginError, setLoginError] = useState(false);
@@ -29,9 +30,9 @@ export default function RegisterPage() {
         setLoginError(false);
       }, 3000);
     } else {
-      console.log("Setting user:");
-      console.log(user.data);
-      await setUser(user.data);
+      localStorage.setItem("userToken",JSON.stringify(user.data));
+      const decodedUser = jwt.decode(user.data,secret);
+      await setUser(decodedUser);
       setRedirect({ enabled: true, route: "/" + user.data.type + "/dashboard" });
     }
   };

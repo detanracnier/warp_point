@@ -1,4 +1,5 @@
 import React from "react";
+import { v4 as uuidv4 } from "uuid";
 
 export default function CustomerShippingOrder(props) {
 
@@ -15,12 +16,12 @@ export default function CustomerShippingOrder(props) {
                 </div>
                 {props.displayOrders.map(order => {
                     return (
-                        <div className="row">
-                            <div className="col">{order.startPoint}</div>
-                            <div className="col">{order.endPoint}</div>
-                            <div className="col">{order.distance}</div>
-                            <div className="col">{order.carrier}</div>
-                            <div className="col">{order.status}</div>
+                        <div key={uuidv4()} className="row">
+                            <div key={uuidv4()} className="col">{order.startPoint}</div>
+                            <div key={uuidv4()} className="col">{order.endPoint}</div>
+                            <div key={uuidv4()} className="col">{order.distance}</div>
+                            <div key={uuidv4()} className="col">{order.carrier}</div>
+                            <div key={uuidv4()} className="col">{order.status}</div>
                         </div>
                     )
                 })}

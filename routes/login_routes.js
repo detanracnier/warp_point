@@ -1,7 +1,9 @@
-var passport = require('passport');
-var Account = require("../models/account");
+const passport = require('passport');
+const Account = require("../models/account");
+const jwt = require('jwt-simple');
 
 module.exports = function (app) {
+  const secret = "blackhole";
 
   app.post('/api/register', function (req, res) {
     console.log("Register request:");
@@ -19,13 +21,19 @@ module.exports = function (app) {
           return res.json({ error: "That username already exists. Try again" });
         }
         passport.authenticate('local')(req, res, function () {
-          res.json(req.user);
+          const payload = req.user;
+          const token = jwt.encode(payload, secret);
+          console.log("Sending token", token);
+          res.json(token);
         });
       });
   });
 
   app.post('/api/login', passport.authenticate('local'), function (req, res) {
-    res.json(req.user);
+    const payload = req.user;
+    const token = jwt.encode(payload, secret);
+    console.log("Sending token", token);
+    res.json(token);
   });
 
   app.get('/logout', function (req, res) {

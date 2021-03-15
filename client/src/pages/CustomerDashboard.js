@@ -2,7 +2,6 @@ import React, { useState, useContext, useEffect } from "react";
 import UserContext from "../utils/UserContext";
 import axios from "axios";
 import LogoutLink from "../components/LogoutLink";
-import Starchart from "../components/Starchart";
 import NewOrderForm from "../components/NewOrderForm";
 import CustomerShippingOrders from "../components/CustomerShippingOrders";
 
@@ -35,11 +34,6 @@ export default function CustomerDashboard() {
         </div>
         <div className="col-3">
           <LogoutLink />
-        </div>
-      </div>
-      <div className="row">
-        <div className="col">
-          <Starchart chart={starchart} />
         </div>
       </div>
       <NewOrderForm chart={starchart} />

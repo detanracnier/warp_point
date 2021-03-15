@@ -8,16 +8,16 @@ import CarrierDashboard from "./pages/CarrierDashboard";
 import RepresentativeDashboard from "./pages/RepresentativeDashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
 import CheckIfLoggedIn from "./components/CheckIfLoggedIn";
-
-// json web tokens
-// jwt-decode
+import jwt from "jwt-simple";
 
 function App() {
+  const secret = "blackhole";
   const [user, setUser] = useState();
 
   useEffect(()=>{
-    const localUser = JSON.parse(localStorage.getItem("user"));
-    if(localUser){
+    const localUserToken = JSON.parse(localStorage.getItem("userToken"));
+    if(localUserToken){
+      const localUser = jwt.decode(localUserToken,secret);
       setUser(localUser);
     }
   },[]);
