@@ -24,6 +24,7 @@ if (process.env.NODE_ENV === "production") {
 require('./routes/login_routes')(app);
 require('./routes/order_routes')(app);
 require('./routes/starchart_routes')(app);
+// Must be last as fallback
 require('./routes/index_route')(app);
 
 // Connect to the Mongo DB
