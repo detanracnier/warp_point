@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
+import { Redirect } from "react-router-dom";
 import UserContext from "../utils/UserContext";
 import axios from "axios";
 
@@ -6,6 +7,7 @@ export default function AvailableOrders() {
     const [availableOrders, setAvailableOrders] = useState([]);
     const [pageNumber, setPageNumber] = useState(0);
     const { user } = useContext(UserContext);
+    const [redirect, setRedirect] = useState({ enabled: false, route: "" });
 
     useEffect(() => {
         axios.post('/api/order/search', { carrier: null }).then(response => {
@@ -17,9 +19,10 @@ export default function AvailableOrders() {
 
     const claimOrder = (e) => {
         console.log(e.currentTarget.dataset.div_id);
-        axios.put('/api/order/'+e.currentTarget.dataset.div_id, { carrier: user.companyName })
+        axios.put('/api/order/'+e.currentTarget.dataset.div_id, { carrier: user.companyName, status: "active" })
         .then(response => {
             console.log(response.data);
+            setRedirect({ enabled: true, route: "/" });
         })
         .catch(err => {
             console.log(err);
@@ -54,8 +57,15 @@ export default function AvailableOrders() {
         })
     }
 
+    const renderRedirect = () => {
+        if (redirect.enabled) {
+            return <Redirect to={redirect.route} />
+        }
+    }
+
     return (
         <div>
+            {renderRedirect()}
             <h3 className="bg-light rounded border">Available Orders</h3>
             <div className="container">
                 <div className="row border-bottom">
