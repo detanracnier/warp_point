@@ -22,6 +22,8 @@ function App() {
     }
   },[]);
 
+  console.log("welcome to app");
+
   return (
     <div className="app-container">
       <UserContext.Provider value={{ user, setUser }}>
