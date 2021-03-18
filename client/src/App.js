@@ -37,17 +37,17 @@ function App() {
             <Route exact path="/register" >
               <RegisterPage />
             </Route>
-            <Route path="/customer/dashboard">
+            <Route exact path="/customer/dashboard">
               <ProtectedRoute>
                 <CustomerDashboard />
               </ProtectedRoute>
             </Route>
-            <Route path="/carrier/dashboard">
+            <Route exact path="/carrier/dashboard">
               <ProtectedRoute>
                 <CarrierDashboard />
               </ProtectedRoute>
             </Route>
-            <Route path="/rep/dashboard">
+            <Route exact path="/rep/dashboard">
               <ProtectedRoute>
                 <RepresentativeDashboard />
               </ProtectedRoute>
