@@ -26,7 +26,8 @@ function App() {
 
   return (
     <div className="app-container">
-      <UserContext.Provider value={{ user, setUser }}>
+      <h1>fuuuuuck</h1>
+      {/* <UserContext.Provider value={{ user, setUser }}>
         <Router>
           <Switch>
             <Route exact path="/login">
@@ -57,7 +58,7 @@ function App() {
             </Route>
           </Switch>
         </Router>
-      </UserContext.Provider>
+      </UserContext.Provider> */}
     </div>
   )
 }
