@@ -6,6 +6,8 @@ const app = express();
 const PORT = process.env.PORT || 3001;
 const passport = require("./config/passport");
 const routes = require("./routes");
+const dotenv = require("dotenv");
+dotenv.config();
 
 // create sessions
 app.use(session({ secret: "keyboard cat", resave: true, saveUninitialized: true }));
@@ -18,6 +20,7 @@ app.use(express.json());
 
 // Serve up static assets (usually on heroku)
 if (process.env.NODE_ENV === "production") {
+  console.log("In Production");
   app.use(express.static("client/build"));
 }
 
