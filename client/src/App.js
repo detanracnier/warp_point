@@ -52,7 +52,9 @@ function App() {
                 <RepresentativeDashboard />
               </ProtectedRoute>
             </Route>
-            <Redirect to="/login" />
+            <Route path="/">
+              <Redirect to="/login" />
+            </Route>
           </Switch>
         </Router>
       </UserContext.Provider>
