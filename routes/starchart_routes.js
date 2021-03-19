@@ -1,17 +1,21 @@
 const planetNodeController = require("../controllers/planetNodeController");
+const router = require("express").Router();
 
-module.exports = function (app) {
-    app.get('/api/starchart', planetNodeController.findAll);
-    app.post('/api/starchart/calculate', async function (req, res) {
-        let startPoint = req.body.startPoint;
-        let endPoint = req.body.endPoint;
-        // setTimeout(()=> {
-        //     res.json({distance:1000, customerCharge:500})
-        // },1500);
-        const route = await pathfinding(startPoint, endPoint);
-        res.json(route);
-    })
-}
+router.route('/')
+    .get(planetNodeController.findAll);
+
+router.route('/calculate')
+    .post(async function (req, res) {
+    let startPoint = req.body.startPoint;
+    let endPoint = req.body.endPoint;
+    // setTimeout(()=> {
+    //     res.json({distance:1000, customerCharge:500})
+    // },1500);
+    const route = await pathfinding(startPoint, endPoint);
+    res.json(route);
+});
+
+module.exports = router;
 
 async function pathfinding(startPoint, endPoint) {
     const customerShippingRate = 34;

@@ -5,6 +5,7 @@ const mongoose = require("mongoose");
 const app = express();
 const PORT = process.env.PORT || 3001;
 const passport = require("./config/passport");
+const routes = require("./routes");
 
 // create sessions
 app.use(session({ secret: "keyboard cat", resave: true, saveUninitialized: true }));
@@ -21,11 +22,7 @@ if (process.env.NODE_ENV === "production") {
 }
 
 // Add routes
-require('./routes/login_routes')(app);
-require('./routes/order_routes')(app);
-require('./routes/starchart_routes')(app);
-// Must be last as fallback
-require('./routes/index_route')(app);
+app.use(routes);
 
 // Connect to the Mongo DB
 mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/warp_point");
