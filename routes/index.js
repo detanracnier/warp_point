@@ -10,7 +10,7 @@ router.use("/api/order", orderRoutes);
 router.use("/api/starchart", starchartRoutes);
 
 router.use((req, res) => {
-    res.sendFile(path.join(__dirname, "./client/build/index.html"));
+    res.sendFile(path.join(__dirname, "/public/index.html"));
 });
 
 module.exports = router;
