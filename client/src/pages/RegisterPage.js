@@ -5,7 +5,7 @@ import axios from "axios";
 import jwt from "jwt-simple";
 
 async function registerUser(credentials) {
-  return axios.post('/api/register', { ...credentials })
+  return axios.post('/api/login/register', { ...credentials })
     .then(data => data).catch((err) => {
       return "Error";
     })

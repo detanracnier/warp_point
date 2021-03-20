@@ -5,7 +5,7 @@ import axios from "axios";
 import jwt from "jwt-simple";
 
 async function loginUser(credentials) {
-  return axios.post('/api/login', { ...credentials })
+  return axios.post('/api/login/authenticate', { ...credentials })
     .then(data => data).catch((err) => {
       return "Error";
     })
@@ -32,6 +32,7 @@ export default function LoginPage() {
       }, 3000);
     } else {
       localStorage.setItem("userToken",JSON.stringify(user.data));
+      console.log(user.data);
       const decodedUser = jwt.decode(user.data,secret);
       await setUser(decodedUser);
     }

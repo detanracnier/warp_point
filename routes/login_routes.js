@@ -5,7 +5,7 @@ const router = require("express").Router();
 
 const secret = "blackhole";
 
-router.route('api/register')
+router.route('/register')
 .post(function (req, res) {
   console.log("Register request:");
   const { username, password, type, companyName, location, phone } = req.body;
@@ -30,7 +30,7 @@ router.route('api/register')
     });
 });
 
-router.route('api/login')
+router.route('/authenticate')
   .post(passport.authenticate('local'), function (req, res) {
   const payload = req.user;
   const token = jwt.encode(payload, secret);
@@ -38,7 +38,7 @@ router.route('api/login')
   res.json(token);
 });
 
-router.route('logout')
+router.route('/logout')
   .post(function (req, res) {
   req.logout();
   res.redirect('/');
