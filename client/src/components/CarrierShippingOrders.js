@@ -26,7 +26,7 @@ export default function CarrierShippingOrder(props) {
     }
 
     return (
-        <div className="container">
+        <div className="container mb-5">
             {renderRedirect()}
             <div className="row border-bottom">
                 <div className="col">Start Point</div>

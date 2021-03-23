@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from "uuid";
 export default function CustomerShippingOrder(props) {
 
     return (
-        <div>
+        <div className="mb-5">
             <h3 className="bg-light rounded border">Active Orders</h3>
             <div className="container">
                 <div className="row border-bottom">
