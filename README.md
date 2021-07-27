@@ -13,7 +13,7 @@
 
 
 ## Description
-A logistics management application for customers and shippers. Customers may create orders by selecting a starting destination and end destinations from a fictitious galaxy map. Server side handles pathfinding between the two points to determine shortest route so customers order can be price by distance. Customers can track the status of their orders through their dashboard. Shippers can view and claim shipping orders that are available, track, and update the status of their active orders via their dashboard.
+A logistics management application for customers and shippers. Customers may create orders by selecting a starting destination and end destinations from a fictitious galaxy map. Server side handles pathfinding between the two points to determine shortest route so customers order can be priced by distance. Customers can track the status of their orders through their dashboard. Shippers can view and claim shipping orders that are available, track, and update the status of their active orders via their dashboard.
 
 
 ## Installation 
